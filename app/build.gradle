@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'findbugs'
+apply plugin: 'checkstyle'
 
 android {
     compileSdkVersion 23
@@ -37,6 +38,18 @@ task findbugs(type: FindBugs) {
             destination "$project.buildDir/reports/findbugs/findbugs.html"
         }
     }
+}
+
+task checkstyle(type: Checkstyle) {
+    configFile rootProject.file('checkstyle.xml')
+    // source fileTree('src')
+    source 'src/main/java'
+    ignoreFailures false
+    showViolations true
+    include '**/*.java'
+    exclude '**/gen/**'
+
+    classpath = files()
 }
 
 dependencies {
